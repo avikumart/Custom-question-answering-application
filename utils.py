@@ -16,15 +16,9 @@ def get_text_from_html(html_content):
 
 # recursive text splitter
 def split_docs(text, chunk_size=1000, chunk_overlap=20):
-  text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-  texts = text_splitter.split_text(text)
-  return texts
-
-# pdf loader using langchain pypdf loader
-def pdf_loader(pdf):
-    loader = PyPDFLoader(pdf)
-    pages = loader.load_and_split() # load and split to get chunks
-    return pages 
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    texts = text_splitter.split_text(text)
+    return texts
 
 # get text chunks from web url func
 def scrape_text(url, max_chars=1000):
@@ -33,4 +27,14 @@ def scrape_text(url, max_chars=1000):
     chunks = split_docs(text, chunk_size=max_chars)
     return chunks
 
-    
+# pdf loader using langchain pypdf loader
+def pdf_loader(pdf):
+    loader = PyPDFLoader(pdf)
+    pages = loader.load_and_split() # load and split to get chunks
+    return pages  
+
+# get text from pdf url
+def pdf_text(pdf, max_chars=1000):
+    pages = pdf_loader(pdf)
+    chunks = split_docs(pages,chunk_size=max_chars)
+    return chunks        
