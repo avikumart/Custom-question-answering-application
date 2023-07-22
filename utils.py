@@ -22,7 +22,7 @@ def split_docs(text, chunk_size=1000, chunk_overlap=20):
 
 # get text chunks from web url func
 def scrape_text(url, max_chars=1000):
-    html_content = get_html_content(url)
+    html_content = get_html_content(str(url))
     text = get_text_from_html(html_content)
     chunks = split_docs(text, chunk_size=max_chars)
     return chunks

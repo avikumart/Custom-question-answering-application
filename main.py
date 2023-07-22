@@ -6,9 +6,9 @@ from io  import StringIO
 
 
 # header of the app
-_ , col2,_ = st.columns([1,6,1])
+_ , col2,_ = st.columns([1,7,1])
 with col2:
-    col2 = st.header("Simplechat: Chat with your data")
+    col2 = st.header("Simplchat: Chat with your data")
     url = False
     query = False
     pdf = False
@@ -32,7 +32,7 @@ with col2:
 if button and url:
     with st.spinner("Updating the database..."):
         corpusData = scrape_text(url)
-        encodeaddData(corpusData,url)
+        encodeaddData(corpusData,url=url,pdf=False)
         st.success("Database Updated")
     with st.spinner("Finding an answer..."):
         title, res = find_k_best_match(query,2)
@@ -45,8 +45,8 @@ if button and url:
 # write a code to get output on given query and data sources
 if button and pdf:
     with st.spinner("Updating the database..."):
-        corpusData = pdf_text(pdf)
-        encodeaddData(corpusData,pdf)
+        corpusData = pdf_text(pdf=pdf)
+        encodeaddData(corpusData,pdf,url=False)
         st.success("Database Updated")
     with st.spinner("Finding an answer..."):
         title, res = find_k_best_match(query,2)
@@ -55,17 +55,4 @@ if button and pdf:
         prompt = qanda.prompt(context,query)
         answer = qanda.get_answer(prompt)
         st.success("Answer: "+ answer)
-        
-# write a code if querying an existing database
-if button:
-    with st.spinner("Finding an answer..."):
-        title, res = find_k_best_match(query,2)
-        context = "\n\n".join(res)
-        st.expander("Context").write(context)
-        prompt = qanda.prompt(context,query)
-        answer = qanda.get_answer(prompt)
-        st.success("Answer: "+ answer)
-        
-    
-           
     

@@ -1,6 +1,7 @@
 import openai
 
-open.api_key = "api_key"
+# open ai key
+openai.api_key = "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"
 
 # define a prompt
 def prompt(context, query):
