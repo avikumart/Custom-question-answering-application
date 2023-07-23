@@ -10,18 +10,18 @@ index = pinecone.Index("langchain-qa-index")
 
 # load the corpus and encode each chunks
 def encodeaddData(corpusData, url, pdf):
-    id = index.describe_index_stats()["total_vector_count"]
+    #id = index.describe_index_stats()["total_vector_count"]
     if url:
         for i in range(len(corpusData)):
             chunk = corpusData[i]
-            chunkInfo=(str(id+i),
+            chunkInfo=(str(i),
                     model.encode(chunk).tolist(),
                     {'title':url,'context':chunk})
             index.upsert([chunkInfo])
     if pdf:
         for i in range(len(corpusData)):
             chunk = corpusData[i]
-            chunkInfo=(str(id+i),
+            chunkInfo=(str(i),
                     model.encode(chunk).tolist(),
                     {'title':pdf,'context':chunk})
             index.upsert([chunkInfo])

@@ -1,9 +1,14 @@
 import streamlit as st
+import openai
 import qanda
 from vector_search import *
 from utils import *
 from io  import StringIO
 
+# take openai api key in
+api_key = st.sidebar.text_input("Enter your OpenAI API key:", type='password')
+# open ai key
+openai.api_key = str(api_key)
 
 # header of the app
 _ , col2,_ = st.columns([1,7,1])
@@ -55,4 +60,19 @@ if button and pdf:
         prompt = qanda.prompt(context,query)
         answer = qanda.get_answer(prompt)
         st.success("Answer: "+ answer)
-    
+        
+if button and 'Existing data source':
+    with st.spinner("Finding an answer..."):
+        title, res = find_k_best_match(query,2)
+        context = "\n\n".join(res)
+        st.expander("Context").write(context)
+        prompt = qanda.prompt(context,query)
+        answer = qanda.get_answer(prompt)
+        st.success("Answer: "+ answer)
+        
+        
+# delete the vectors
+st.expander("Delete the indexes from the database")
+button1 = st.button("Delete the current vectors")
+if button1 == True:
+    index.delete(deleteAll='true')
