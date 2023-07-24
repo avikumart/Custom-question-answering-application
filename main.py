@@ -26,7 +26,7 @@ with col2:
         query = st.text_input("Enter your query")
         button = st.button("Submit")
     elif options == 'PDF':
-        pdf = st.file_uploader("Choose your pdf file:", type='pdf') 
+        pdf = st.text_input("Enter your PDF link here") 
         query = st.text_input("Enter your query")
         button = st.button("Submit")
     elif options == 'Existing data source':
