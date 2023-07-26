@@ -33,8 +33,14 @@ def pdf_loader(pdf):
     pages = loader.load_and_split() # load and split to get chunks
     return pages  
 
+# split pdf docs
+def split_documents(text, chunk_size=1000, chunk_overlap=20):
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    texts = text_splitter.split_documents(text)
+    return texts
+
 # get text from pdf url
 def pdf_text(pdf, max_chars=1000):
     pages = pdf_loader(pdf)
-    chunks = split_docs(pages,chunk_size=max_chars)
-    return chunks        
+    chunks = split_documents(pages,chunk_size=max_chars)
+    return [list(p)[0][1] for p in chunks]        
