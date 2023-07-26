@@ -17,6 +17,7 @@ with col2:
     url = False
     query = False
     pdf = False
+    data = False
     # select option based on user need
     options = st.selectbox("Select the type of data source",
                             options=['Web URL','PDF','Existing data source'])
@@ -30,6 +31,7 @@ with col2:
         query = st.text_input("Enter your query")
         button = st.button("Submit")
     elif options == 'Existing data source':
+        data= True
         query = st.text_input("Enter your query")
         button = st.button("Submit") 
 
@@ -61,7 +63,7 @@ if button and pdf:
         answer = qanda.get_answer(prompt)
         st.success("Answer: "+ answer)
         
-if button and 'Existing data source':
+if button and data:
     with st.spinner("Finding an answer..."):
         title, res = find_k_best_match(query,2)
         context = "\n\n".join(res)
