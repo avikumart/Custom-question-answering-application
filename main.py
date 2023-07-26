@@ -51,7 +51,7 @@ if button and url:
 if button and pdf:
     with st.spinner("Updating the database..."):
         corpusData = pdf_text(pdf=pdf)
-        encodeaddData(corpusData,pdf,url=False)
+        encodeaddData(corpusData,pdf=pdf,url=False)
         st.success("Database Updated")
     with st.spinner("Finding an answer..."):
         title, res = find_k_best_match(query,2)
