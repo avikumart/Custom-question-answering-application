@@ -17,7 +17,7 @@ def get_text_from_html(html_content):
 # recursive text splitter
 def split_docs(text, chunk_size=1000, chunk_overlap=20):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-    texts = text_splitter.split_text(text)
+    texts = text_splitter.split_documents(text)
     return texts
 
 # get text chunks from web url func
