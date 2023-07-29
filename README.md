@@ -13,4 +13,4 @@ A question-answering application powered by OpenAI LLM, Pinecone and Streamlit
 - Web-based text data
 - PDF links
 
-### Application link: [Click Here](https://custom-question-answering.streamlit.app/)
+### Application link: [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://custom-question-answering.streamlit.app/)
