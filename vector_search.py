@@ -9,7 +9,7 @@ pinecone.init(api_key="1983f7f1-4a49-469b-aa7f-e2f2e7bf9874", environment='us-we
 index = pinecone.Index("langchain-qa-index")
 
 # load the corpus and encode each chunks
-def encodeaddData(corpusData, url, pdf):
+def encodeaddData(corpusData, url, pdf, pdf2):
     #id = index.describe_index_stats()["total_vector_count"]
     if url:
         for i in range(len(corpusData)):
@@ -25,6 +25,14 @@ def encodeaddData(corpusData, url, pdf):
                     model.encode(chunk).tolist(),
                     {'title':pdf,'context':chunk})
             index.upsert([chunkInfo])
+    if pdf2:
+        for i in range(len(corpusData)):
+            chunk = corpusData[i]
+            chunkInfo=(str(i),
+                    model.encode(chunk).tolist(),
+                    {'title':str(pdf2),'context':chunk})
+            index.upsert([chunkInfo])
+        
     
 # find the best match from index    
 def find_k_best_match(query,k):

@@ -17,6 +17,7 @@ with col2:
     url = False
     query = False
     pdf = False
+    pdf2 = False
     data = False
     # select option based on user need
     options = st.selectbox("Select the type of data source",
@@ -28,6 +29,8 @@ with col2:
         button = st.button("Submit")
     elif options == 'PDF':
         pdf = st.text_input("Enter your PDF link here") 
+        st.write("Or choose .pdf from your local machine")
+        pdf2 = st.file_uploader("Choose pdf file:", type="pdf")
         query = st.text_input("Enter your query")
         button = st.button("Submit")
     elif options == 'Existing data source':
@@ -54,6 +57,20 @@ if button and pdf:
     with st.spinner("Updating the database..."):
         corpusData = pdf_text(pdf=pdf)
         encodeaddData(corpusData,pdf=pdf,url=False)
+        st.success("Database Updated")
+    with st.spinner("Finding an answer..."):
+        title, res = find_k_best_match(query,2)
+        context = "\n\n".join(res)
+        st.expander("Context").write(context)
+        prompt = qanda.prompt(context,query)
+        answer = qanda.get_answer(prompt)
+        st.success("Answer: "+ answer)
+        
+# writea code to get output for given query and pdf2 file
+if button and pdf2:
+    with st.spinner("Updating the database..."):
+        corpusData = extract_data(feed=pdf2)
+        encodeaddData(corpusData,pdf2=pdf2,url=False,pdf=False)
         st.success("Database Updated")
     with st.spinner("Finding an answer..."):
         title, res = find_k_best_match(query,2)

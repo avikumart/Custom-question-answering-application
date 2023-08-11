@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+import pdfplumber
 
 
 # html functions to load data from any web url
@@ -39,8 +40,25 @@ def split_documents(text, chunk_size=1000, chunk_overlap=20):
     texts = text_splitter.split_documents(text)
     return texts
 
+# split pdf texts
+def split_texts(text, chunk_size=1000, chunk_overlap=20):
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    texts = text_splitter.split_text(text)
+    return texts
+
 # get text from pdf url
 def pdf_text(pdf, max_chars=1000):
     pages = pdf_loader(pdf)
     chunks = split_documents(pages,chunk_size=max_chars)
-    return [list(p)[0][1] for p in chunks]        
+    return [list(p)[0][1] for p in chunks]   
+
+# extract data from pdf file object
+def extract_data(feed, max_chars=1000):
+    data = []
+    with pdfplumber.open(feed) as pdf:
+        pages = pdf.pages
+        for p in pages:
+            data.append(p.extract_text())
+    string = ' '.join(data)
+    chunks = split_texts(string,chunk_size=max_chars)
+    return chunks     
